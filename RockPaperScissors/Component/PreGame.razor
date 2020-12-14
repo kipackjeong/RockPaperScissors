@@ -2,11 +2,6 @@
 
 @inject IJSRuntime JSRuntime
 
-<div>Teachable Machine Image Model</div>
-<button type="button" @onclick="OnClick">Start</button>
-<div id="webcam-container"></div>
-<div id="label-container"></div>
-
 <div style="display: flex; justify-content: center; margin-bottom: 20px">
     @foreach (var hand in GameMaterials.Hands)
     {
@@ -20,14 +15,4 @@
 
 @code {
     [CascadingParameter] public GameMaterials GameMaterials { get; set; }
-
-
-
-    public async Task OnClick()
-    {
-        await JSRuntime.InvokeVoidAsync("init");
-    }
-
-
-
 }

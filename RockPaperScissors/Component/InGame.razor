@@ -2,17 +2,28 @@
 @using System.Timers
 @implements IDisposable
 
-<div style="display: flex; justify-content: center; margin-bottom: 20px">
+@* Score Board *@
+<div class="scoreboard">
+    <h2 class="text-center"><BSBadge Color="Color.Primary"> Score: @ScoreBoard.Score</BSBadge></h2>
+</div>
+
+@* Opponent *@
+<div class="opponent-cont">
     <img src="@GameMaterials.OpponentHand.Image" class="image" />
 </div>
 
-<div style="display: flex; justify-content: center; margin-bottom: 20px">
+
+@* User Choice *@
+<div class="user-cont"style="">
     @foreach (var hand in GameMaterials.Hands)
     {
         <img src="@hand.Image" class="image selectable-image" @onclick="@(()=> HandChosed(hand))" />
     }
 </div>
 
+
+
+@* GameOver Modal *@
 <BSModal @ref="VerticallyCentered" IsCentered="true">
     <BSModalHeader OnClick="@OnToggle">Modal title</BSModalHeader>
     <BSModalBody>
@@ -28,7 +39,12 @@
 
 
 @code {
-    [CascadingParameter] public GameMaterials GameMaterials { get; set; }
+    [CascadingParameter]
+    public GameMaterials GameMaterials { get; set; }
+
+    [Inject]
+    public ScoreBoard ScoreBoard { get; set; }
+
     BSModal VerticallyCentered { get; set; }
 
     protected override void OnInitialized()
@@ -71,6 +87,7 @@
         }
         else
         {
+            ScoreBoard.Score += 100;
             ChangeOpponentHand();
         }
     }

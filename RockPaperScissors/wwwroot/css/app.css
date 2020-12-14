@@ -15,7 +15,8 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding-top: 3.1rem;
+    margin-top: 100px;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -50,7 +51,18 @@ a, .btn-link {
     }
 
 
-
+.opponent-cont {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px
+}
+.user-cont {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px
+}
 
 .image {
     width: 200px;
