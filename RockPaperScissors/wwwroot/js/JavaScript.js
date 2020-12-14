@@ -2,12 +2,12 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
 // the link to your model provided by Teachable Machine export panel
-export const URL = "https://teachablemachine.withgoogle.com/models/E50e4dex0/";
+const URL = "https://teachablemachine.withgoogle.com/models/E50e4dex0/";
 
-export let model, webcam, labelContainer, maxPredictions;
+let model, webcam, labelContainer, maxPredictions;
 
 // Load the image model and setup the webcam
-export function init() {
+async function init() {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 

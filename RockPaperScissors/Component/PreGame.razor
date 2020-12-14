@@ -21,12 +21,13 @@
 @code {
     [CascadingParameter] public GameMaterials GameMaterials { get; set; }
 
-    private IJSObjectReference _jsModule;
 
 
     public async Task OnClick()
     {
-        _jsModule =  await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/JavaScript.js");
-        await _jsModule.InvokeVoidAsync("init");
+        await JSRuntime.InvokeVoidAsync("init");
     }
+
+
+
 }
