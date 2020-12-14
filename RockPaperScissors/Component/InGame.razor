@@ -1,0 +1,83 @@
+﻿@using RockPaperScissors.Helpers
+@using System.Timers
+@implements IDisposable
+
+<div style="display: flex; justify-content: center; margin-bottom: 20px">
+    <img src="@GameMaterials.OpponentHand.Image" class="image" />
+</div>
+
+<div style="display: flex; justify-content: center; margin-bottom: 20px">
+    @foreach (var hand in GameMaterials.Hands)
+    {
+        <img src="@hand.Image" class="image selectable-image" @onclick="@(()=> HandChosed(hand))" />
+    }
+</div>
+
+<BSModal @ref="VerticallyCentered" IsCentered="true">
+    <BSModalHeader OnClick="@OnToggle">Modal title</BSModalHeader>
+    <BSModalBody>
+        <p class="text-center">YOU LOST!!!!</p>
+        <p class="text-center">Do You Want to Play Again?</p>
+    </BSModalBody>
+    <BSModalFooter>
+        <BSButton Color="Color.Secondary" @onclick="@OnToggle">Close</BSButton>
+        <BSButton Color="Color.Primary" @onclick="@OnToggle">PlayAgain</BSButton>
+    </BSModalFooter>
+</BSModal>
+
+
+
+@code {
+    [CascadingParameter] public GameMaterials GameMaterials { get; set; }
+    BSModal VerticallyCentered { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GameMaterials.OpponentHand = GameMaterials.Hands[0];
+        GameMaterials.Timer = new Timer();
+        GameMaterials.Timer.Interval = 2000;
+        GameMaterials.Timer.Elapsed += TimerOnElapsed;
+        GameMaterials.Timer.Start();
+    }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        ChangeOpponentHand();
+        StateHasChanged();
+    }
+
+    private void ChangeOpponentHand()
+    {
+        Random randomNum = new Random();
+        int opponentHandIndex = randomNum.Next(0, 3);
+        GameMaterials.OpponentHand = GameMaterials.Hands[opponentHandIndex];
+    }
+
+    public void Dispose()
+    {
+        if (GameMaterials.Timer != null)
+        {
+            GameMaterials.Timer.Dispose();
+        }
+    }
+
+    public async Task HandChosed(Hand userHand)
+    {
+        var gameResult = userHand.PlayAgainst(GameMaterials.OpponentHand);
+        Console.WriteLine(gameResult.ToString());
+        if (gameResult == GameStatus.Lost)
+        {
+            VerticallyCentered.Toggle();
+        }
+        else
+        {
+            ChangeOpponentHand();
+        }
+    }
+
+    public void OnToggle()
+    {
+        VerticallyCentered.Toggle();
+        VerticallyCentered.Dispose();
+    }
+}

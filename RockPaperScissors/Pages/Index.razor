@@ -1,0 +1,37 @@
+﻿@page "/"
+@using System.Timers
+@using RockPaperScissors.Helpers
+
+
+
+    <CascadingValue Value="GameMaterials">
+        @if (GameStarted)
+        {
+            <InGame>
+            </InGame>
+        }
+        else
+        {
+            <PreGame>
+            </PreGame>
+            <button class="btn btn-info" @onclick="StartGame">Play</button>
+        }
+    </CascadingValue>
+
+
+
+
+@code{
+    BSModal VerticallyCentered;
+
+    [Inject]
+    public GameMaterials GameMaterials { get; set; }
+
+    public bool GameStarted { get; set; } = false;
+
+
+    public async Task StartGame()
+    {
+        GameStarted = true;
+    }
+}
